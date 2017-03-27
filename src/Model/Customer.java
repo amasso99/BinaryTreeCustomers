@@ -3,7 +3,7 @@ package Model;
 /** Klasse für ein Kunden-Objekt.
  * Created by Jean-Pierre on 26.03.2017.
  */
-public class Customer{
+public class Customer implements ComparableContent<Customer> {
 
     private String name;
     private int sales; //Umsatz
@@ -44,6 +44,38 @@ public class Customer{
      */
     public void setSales(int newSales){
         this.sales = newSales;
+    }
+
+    @Override
+    public boolean isGreater(Customer pContent) {
+        if (this.getName().compareTo(pContent.getName()) > 0){
+            return true;
+    }
+
+        return false;
+    }
+
+    @Override
+    public boolean isEqual(Customer pContent) {
+        if(this.getName().compareTo(pContent.getName()) == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean isLess(Customer pContent) {
+        if (this.getName().compareTo(pContent.getName()) < 0){
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString(){
+        return name;
     }
 
     //TODO 02: Überarbeite die Klasse so, dass sie in einem BinarySearchTree verwaltet werden kann. Kannst du auch ihre Darstellung im Baum effizient überarbeiten?

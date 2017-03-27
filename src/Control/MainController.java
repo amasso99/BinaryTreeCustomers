@@ -19,7 +19,7 @@ public class MainController {
 
     public MainController(){
         surpriseIsSet = false;
-        customerTree = new BinarySearchTree<>();
+        customerTree = new BinarySearchTree<Customer>();
         createCustomerTree();
     }
 
