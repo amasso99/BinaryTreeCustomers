@@ -78,5 +78,5 @@ public class Customer implements ComparableContent<Customer> {
         return name;
     }
 
-    //TODO 02: Überarbeite die Klasse so, dass sie in einem BinarySearchTree verwaltet werden kann. Kannst du auch ihre Darstellung im Baum effizient überarbeiten?
+    //(Check) TODO 02: Überarbeite die Klasse so, dass sie in einem BinarySearchTree verwaltet werden kann. Kannst du auch ihre Darstellung im Baum effizient überarbeiten?
 }
