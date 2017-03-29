@@ -88,7 +88,10 @@ public class MainController {
      */
     private String traverse(BinarySearchTree tree){
         //TODO 04:  Siehe Rückgabe. You can do it!
-        return "Lege fest, wie die Daten ausgegeben werden sollen!";
+        if(tree.isEmpty()) {
+            return "";
+        }
+        return tree.getContent().toString()+" "+traverse(tree.getLeftTree())+" "+traverse(tree.getRightTree());
     }
 
     /**
@@ -101,7 +104,17 @@ public class MainController {
         //TODO 05: Umsetzung einer Teilaufgabe einer zurückliegenden Hausaufgabe.
         String[] output = new String[2];
 
+
+
         return output;
+    }
+
+    public Customer biggest(BinarySearchTree<Customer> tree){
+
+        if(tree.getRightTree().isEmpty()){
+            return tree.getContent();
+        }
+        return biggest(tree.getRightTree());
     }
 
     /**
