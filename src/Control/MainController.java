@@ -122,7 +122,14 @@ public class MainController {
      */
     public int sumUpSales(){
         //TODO 06:  Ein weiterer Algorithmus, der mit einer Traversierung einfach umsetzbar ist.
-        return -1;
+        return traverseSumUp(customerTree);
+    }
+
+    private int traverseSumUp(BinarySearchTree<Customer> tree){
+        if(tree.isEmpty()) {
+            return 0;
+        }
+        return tree.getContent().getSales()+traverseSumUp(tree.getLeftTree())+traverseSumUp(tree.getRightTree());
     }
 
     /**
