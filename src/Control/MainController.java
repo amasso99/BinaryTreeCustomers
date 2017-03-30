@@ -102,15 +102,14 @@ public class MainController {
      */
     public String[] searchLastName(){
         //TODO 05: Umsetzung einer Teilaufgabe einer zurückliegenden Hausaufgabe.
-        String[] output = new String[2];
-
-
-
-        return output;
+        Customer cstmer = biggest(customerTree);
+        if(cstmer != null){
+            return new String[]{cstmer.getName(), String.valueOf(cstmer.getSales())};
+        }
+        return new String[]{"no customer in db"};
     }
 
-    public Customer biggest(BinarySearchTree<Customer> tree){
-
+    private Customer biggest(BinarySearchTree<Customer> tree){
         if(tree.getRightTree().isEmpty()){
             return tree.getContent();
         }

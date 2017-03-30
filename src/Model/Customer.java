@@ -75,7 +75,7 @@ public class Customer implements ComparableContent<Customer> {
 
     @Override
     public String toString(){
-        return name;
+        return name+" "+sales;
     }
 
     //(Check) TODO 02: Überarbeite die Klasse so, dass sie in einem BinarySearchTree verwaltet werden kann. Kannst du auch ihre Darstellung im Baum effizient überarbeiten?
