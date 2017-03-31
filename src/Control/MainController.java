@@ -2,6 +2,7 @@ package Control;
 
 import Model.BinarySearchTree;
 import Model.Customer;
+import Model.List;
 import View.DrawingPanel;
 import View.TreeView.TreeNode;
 import View.TreeView.TreePath;
@@ -13,6 +14,7 @@ public class MainController {
 
     //Attribute
     private boolean surpriseIsSet;
+    private int size;
 
     //Referenzen
     private BinarySearchTree<Customer> customerTree;
@@ -21,6 +23,7 @@ public class MainController {
         surpriseIsSet = false;
         customerTree = new BinarySearchTree<Customer>();
         createCustomerTree();
+        size = 0;
     }
 
     /**
@@ -140,7 +143,12 @@ public class MainController {
      */
     public boolean insert(String name, int sales){
         //TODO 07:  Erste Methode, die auf der Datenstruktur selbst konkret arbeitet und einige Methoden von ihr aufruft.
-        return false;
+        Customer newCus = new Customer(name,sales);
+        if(customerTree.search(newCus) == null) {
+            customerTree.insert(newCus);
+            return true;
+        }
+        return !true;
     }
 
     /**
@@ -151,7 +159,12 @@ public class MainController {
      */
     public boolean delete(String name){
         //TODO 08: Methode funktioniert so ähnlich wie die vorherige.
-        return false;
+        Customer searchKey = new Customer("name");
+        if(customerTree.search(searchKey) == null){
+            return false;
+        }
+        customerTree.remove(searchKey);
+        return true;
     }
 
     /**
@@ -163,8 +176,11 @@ public class MainController {
      */
     public String[] searchName(String name){
         //TODO 09: Setze eine Methode zum Suchen eines konkreten Objekts um.
-        String[] output = new String[1];
-        return output;
+        Customer temp = customerTree.search(new Customer(name));
+        if(temp != null) {
+            return new String[]{temp.getName(),String.valueOf(temp.getSales())};
+        }
+        return new String[]{"name not found"};
     }
 
     /**
@@ -176,8 +192,29 @@ public class MainController {
      */
     public String[] searchSales(int sales){
         //TODO 10: Diese Suche ist deutlich schwieriger umzusetzen wie die vorherige. Welche Schwierigkeit ergibt sich hier?
-        String[] output = new String[1];
-        return output;
+        Customer cTemp = searchSales(customerTree,sales);
+        if(cTemp != null){
+            return new String[]{cTemp.getName(), String.valueOf(cTemp.getSales())};
+        }
+        return new String[]{"sales not found"};
+    }
+
+    private Customer searchSales(BinarySearchTree<Customer> tree, int sales) {
+        Customer temp = tree.getContent();
+        if(temp != null){
+            if(temp.getSales() == sales) {
+                return temp;
+            }
+            Customer leftCustomer = searchSales(tree.getLeftTree(),sales);
+            if(leftCustomer != null) {
+                return leftCustomer;
+            }
+            Customer rightCustomer = searchSales(tree.getRightTree(),sales);
+            if(rightCustomer != null) {
+                return rightCustomer;
+            }
+        }
+        return null;
     }
 
 
@@ -191,9 +228,27 @@ public class MainController {
      */
     public String[][] listUpperNames(String name){
         //TODO 11: Halbwegs sinnvolle Verknüpfung verschiedener Datenstrukturen zur Übung.
+        List<Customer> list = getAllCustomer(customerTree);
+        String[][] array = new String[size][2];
+        list.toFirst();
+        for (int i = 0; i < array.length; i++) {
+            array[i][0] = list.getContent().getName();
+            array[i][1] = String.valueOf(list.getContent().getSales());
+            list.next();
+        }
+        return array;
+    }
 
-        String[][] output = new String[1][2];
-        return output;
+    private List getAllCustomer(BinarySearchTree tree){
+        List list = new List<>();
+        if(tree.isEmpty()){
+            return list;
+        }
+        list.append(tree.getContent());
+        size++;
+        list.concat(getAllCustomer(tree.getLeftTree()));
+        list.concat(getAllCustomer(tree.getRightTree()));
+        return list;
     }
 
     /**
