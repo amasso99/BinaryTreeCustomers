@@ -6,6 +6,7 @@ import Model.List;
 import View.DrawingPanel;
 import View.TreeView.TreeNode;
 import View.TreeView.TreePath;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 /**
  * Created by Jean-Pierre on 12.01.2017.
@@ -241,13 +242,12 @@ public class MainController {
 
     private List getAllCustomer(BinarySearchTree tree){
         List list = new List<>();
-        if(tree.isEmpty()){
-            return list;
+        if(!tree.isEmpty()) {
+            list.append(tree.getContent());
+            size++;
+            list.concat(getAllCustomer(tree.getLeftTree()));
+            list.concat(getAllCustomer(tree.getRightTree()));
         }
-        list.append(tree.getContent());
-        size++;
-        list.concat(getAllCustomer(tree.getLeftTree()));
-        list.concat(getAllCustomer(tree.getRightTree()));
         return list;
     }
 
@@ -257,5 +257,12 @@ public class MainController {
     public void surprise(){
         surpriseIsSet = !surpriseIsSet;
         //TODO 12: "Something big is coming!"
+        /*
+        Der Baum wird umgeschireben
+        Die kunden werden nach sales sortiert
+        Welche änderung sind nötig
+        wie geht man vor?
+
+         */
     }
 }
