@@ -7,6 +7,7 @@ public class Customer implements ComparableContent<Customer> {
 
     private String name;
     private int sales; //Umsatz
+    private boolean searchKeyName;
 
     /**
      * Ein Kunden-Objekt besteht aus einem Namen und einem getätigten Umsatz.
@@ -15,6 +16,7 @@ public class Customer implements ComparableContent<Customer> {
     public Customer(String name){
         this.name = name;
         this.sales = 0;
+        searchKeyName = true;
     }
 
     public Customer(String name, int sales){
@@ -46,30 +48,44 @@ public class Customer implements ComparableContent<Customer> {
         this.sales = newSales;
     }
 
-    @Override
-    public boolean isGreater(Customer pContent) {
-        if (this.getName().compareTo(pContent.getName()) > 0){
-            return true;
+    public void switchSearchKey(){
+        searchKeyName = !searchKeyName;
     }
 
+    public boolean isSearchKeyName(){
+        return searchKeyName;
+    }
+
+    @Override
+    public boolean isGreater(Customer pContent) {
+        if(pContent != null) {
+            if (searchKeyName) {
+                return this.getName().compareTo(pContent.getName()) > 0;
+            }
+            return this.getSales() > pContent.getSales();
+        }
         return false;
     }
 
     @Override
     public boolean isEqual(Customer pContent) {
-        if(this.getName().compareTo(pContent.getName()) == 0) {
-            return true;
+        if(pContent != null) {
+            if (searchKeyName) {
+                return this.getName().compareTo(pContent.getName()) == 0;
+            }
+            return this.getSales() == pContent.getSales();
         }
-
         return false;
     }
 
     @Override
     public boolean isLess(Customer pContent) {
-        if (this.getName().compareTo(pContent.getName()) < 0){
-            return true;
+        if(pContent != null) {
+            if (searchKeyName) {
+                return this.getName().compareTo(pContent.getName()) < 0;
+            }
+            return this.getSales() < pContent.getSales();
         }
-
         return false;
     }
 
