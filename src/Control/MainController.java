@@ -6,7 +6,6 @@ import Model.List;
 import View.DrawingPanel;
 import View.TreeView.TreeNode;
 import View.TreeView.TreePath;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 /**
  * Created by Jean-Pierre on 12.01.2017.
@@ -14,8 +13,8 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 public class MainController {
 
     //Attribute
-    private boolean surpriseIsSet;
-    private int size;
+    private boolean surpriseIsSet, currSearchKeyName;
+
 
     //Referenzen
     private BinarySearchTree<Customer> customerTree;
@@ -24,7 +23,7 @@ public class MainController {
         surpriseIsSet = false;
         customerTree = new BinarySearchTree<Customer>();
         createCustomerTree();
-        size = 0;
+        currSearchKeyName = true;
     }
 
     /**
@@ -230,7 +229,7 @@ public class MainController {
     public String[][] listUpperNames(String name){
         //TODO 11: Halbwegs sinnvolle Verknüpfung verschiedener Datenstrukturen zur Übung.
         List<Customer> list = getAllCustomer(customerTree);
-        String[][] array = new String[size][2];
+        String[][] array = new String[getSize(list)][2];
         list.toFirst();
         for (int i = 0; i < array.length; i++) {
             array[i][0] = list.getContent().getName();
@@ -240,11 +239,20 @@ public class MainController {
         return array;
     }
 
+    private int getSize(List list) {
+        int size = 0;
+        list.toFirst();
+        while(list.hasAccess()){
+            size++;
+            list.next();
+        }
+        return size;
+    }
+
     private List getAllCustomer(BinarySearchTree tree){
         List list = new List<>();
         if(!tree.isEmpty()) {
             list.append(tree.getContent());
-            size++;
             list.concat(getAllCustomer(tree.getLeftTree()));
             list.concat(getAllCustomer(tree.getRightTree()));
         }
@@ -264,5 +272,22 @@ public class MainController {
         wie geht man vor?
 
          */
+    }
+
+    public boolean switchSortKey(boolean searchKey) {
+        if(searchKey && currSearchKeyName || !searchKey && !currSearchKeyName) {
+            List<Customer> list = getAllCustomer(customerTree);
+            BinarySearchTree<Customer> tree = new BinarySearchTree<>();
+            list.toFirst();
+            while (list.hasAccess()) {
+                list.getContent().switchSearchKey();
+                tree.insert(list.getContent());
+                list.next();
+            }
+            currSearchKeyName = !currSearchKeyName;
+            customerTree = tree;
+            return true;
+        }
+        return false;
     }
 }

@@ -22,6 +22,7 @@ public class Customer implements ComparableContent<Customer> {
     public Customer(String name, int sales){
         this.name = name;
         this.sales = sales;
+        searchKeyName = true;
     }
 
     /**

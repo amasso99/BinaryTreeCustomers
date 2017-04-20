@@ -24,6 +24,7 @@ public class InteractionPanelHandler {
     private JButton sumUpSalesButton;
     private JButton listUpperNamesButton;
     private JButton surpriseSurpriseButton;
+    private JComboBox<String> comboBox;
 
     private MainController mainController;
     private DrawingPanel treeDisplayPanel;
@@ -31,10 +32,10 @@ public class InteractionPanelHandler {
     public InteractionPanelHandler(MainController mainController, DrawingPanel treeDisplayPanel) {
         this.mainController = mainController;
         this.treeDisplayPanel = treeDisplayPanel;
-        createButtons();
+        createJObjects();
     }
 
-    private void createButtons(){
+    private void createJObjects(){
         displayTreeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -144,6 +145,16 @@ public class InteractionPanelHandler {
                 mainController.surprise();
                 mainController.showTree(treeDisplayPanel);
                 showText("Suprise is not yet implemented... gnihihihi!");
+            }
+        });
+
+        comboBox.addItem("sort for name");
+        comboBox.addItem("sort for sales");
+        comboBox.addActionListener(e -> {
+            if(mainController.switchSortKey(comboBox.getSelectedIndex() == 1)){
+                showText("You successfully "+comboBox.getSelectedItem());
+            }else {
+                showText("The binary tree is already using this search key!");
             }
         });
     }
